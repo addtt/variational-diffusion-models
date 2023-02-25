@@ -218,11 +218,14 @@ def init_config_from_args(cls, args):
 def check_config_matches_checkpoint(config, checkpoint_path):
     with open(checkpoint_path / "config.yaml", "r") as f:
         ckpt_config = yaml.safe_load(f)
-    if dataclasses.asdict(config) != ckpt_config:
+    config = dataclasses.asdict(config)
+    if config != ckpt_config:
+        config_str = "\n    ".join(f"{k}: {config[k]}" for k in sorted(config))
+        ckpt_str = "\n    ".join(f"{k}: {ckpt_config[k]}" for k in sorted(ckpt_config))
         raise ValueError(
-            f"Config mismatch:\n"
-            f" > Config: {dataclasses.asdict(config)}\n"
-            f" > Checkpoint: {ckpt_config}"
+            f"Config mismatch:\n\n"
+            f"> Config:\n    {config_str}\n\n"
+            f"> Checkpoint:\n    {ckpt_str}\n\n"
         )
 
 
