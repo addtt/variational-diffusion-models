@@ -1,6 +1,7 @@
 import argparse
 import dataclasses
 import math
+from argparse import BooleanOptionalAction
 
 import torch
 import yaml
@@ -52,7 +53,7 @@ def main():
     parser.add_argument("--antithetic-time-sampling", type=bool, default=True)
     parser.add_argument("--lr", type=float, default=2e-4)
     parser.add_argument("--weight-decay", type=float, default=0.01)
-    parser.add_argument("--clip-grad-norm", type=bool, default=True)
+    parser.add_argument("--clip-grad-norm", action=BooleanOptionalAction, default=True)
 
     parser.add_argument("--eval-every", type=int, default=10_000)
     parser.add_argument("--seed", type=int, default=12345)
