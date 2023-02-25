@@ -15,7 +15,7 @@ to the paper, it does not have a significant impact).
 
 ## Results
 
-The samples below are from a model trained on CIFAR10 for 2M steps with a fixed noise 
+The samples below are from a model trained on CIFAR10 for 2M steps with gradient clipping and with a fixed noise 
 schedule such that $\log \mathrm{SNR}(t)$ is linear, with $\log \mathrm{SNR}(0) = 13.3$ and $\log \mathrm{SNR}(1) = -5$.
 These samples are generated from the EMA model in 1000 denoising steps.
 
@@ -23,10 +23,14 @@ These samples are generated from the EMA model in 1000 denoising steps.
 <img alt="Random samples from a model trained on CIFAR10 for 2M steps" src="assets/sample-ema-2M-1000.png"/>
 </p>
 
-The test set variational bound is 2.72 bpd after 2M steps (the paper reports 2.65 after 10M steps). Smoothed training curves below.
+Without gradient clipping (as in the paper), the test set variational lower bound (VLB) is 2.715 bpd after 2M steps
+(the paper reports 2.65 after 10M steps).
+However, training is a bit unstable and requires some care (tendency to overfit)
+and the train-test gap is rather large.
+With gradient clipping, the test set VLB is slightly worse, but training seems more well-behaved.
 
 <p align="center">
-<img style="width:400px" alt="Training curves" src="assets/training-curve-bpd.png"/>
+<img style="width:400px" alt="Training curves" src="assets/training-curve.png"/>
 </p>
 
 
