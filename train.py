@@ -42,15 +42,15 @@ def main():
     parser.add_argument("--dropout-prob", type=float, default=0.1)
     parser.add_argument("--norm-groups", type=int, default=32)
     parser.add_argument("--input-channels", type=int, default=3)
-    parser.add_argument("--use-fourier-features", type=bool, default=True)
-    parser.add_argument("--attention-everywhere", type=bool, default=False)
+    parser.add_argument("--use-fourier-features", action=BooleanOptionalAction, default=True)
+    parser.add_argument("--attention-everywhere", action=BooleanOptionalAction, default=False)
 
     # Training
     parser.add_argument("--batch-size", type=int, default=128)
     parser.add_argument("--noise-schedule", type=str, default="fixed_linear")
     parser.add_argument("--gamma-min", type=float, default=-13.3)
     parser.add_argument("--gamma-max", type=float, default=5.0)
-    parser.add_argument("--antithetic-time-sampling", type=bool, default=True)
+    parser.add_argument("--antithetic-time-sampling", action=BooleanOptionalAction, default=True)
     parser.add_argument("--lr", type=float, default=2e-4)
     parser.add_argument("--weight-decay", type=float, default=0.01)
     parser.add_argument("--clip-grad-norm", action=BooleanOptionalAction, default=True)
