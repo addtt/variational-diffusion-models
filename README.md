@@ -54,11 +54,11 @@ $$q\left(\mathbf{z}_t \mid \mathbf{x}\right)=\mathcal{N}\left(\alpha_t \mathbf{x
 
 In discrete time, the generative (denoising) process in $T$ steps is
 
-$$p(\mathbf{x})=\int_{\mathbf{z}} p\left(\mathbf{z}_1\right) p\left(\mathbf{x} \mid \mathbf{z}_0\right) \prod_{i=1}^T p\left(\mathbf{z}_{s(i)} \mid \mathbf{z}_{t(i)}\right)$$
+$$p(\mathbf{x})=\int_{\mathbf{z}} p\left(\mathbf{z}\_1\right) p\left(\mathbf{x} \mid \mathbf{z}\_0\right) \prod_{i=1}^T p\left(\mathbf{z}\_{s(i)} \mid \mathbf{z}_{t(i)}\right)$$
 
 $$p(\mathbf{z}_1) = \mathcal{N}(\mathbf{0}, \mathbf{I})$$
 
-$$p(\mathbf{x} \mid \mathbf{z}_0) = \prod_{i=1}^N p(x_i \mid z_{0,i})$$
+$$p(\mathbf{x} \mid \mathbf{z}\_0) = \prod_{i=1}^N p(x_i \mid z_{0,i})$$
 
 $$p(x_i \mid z_{0,i}) \propto q(z_{0,i} \mid x_i)$$
 
@@ -68,7 +68,7 @@ true denoising distribution given the data (which is available in
 closed form) except that we substitute the unavailable data
 with a prediction of the clean data at the previous time step:
 
-$$p\left(\mathbf{z}_s \mid \mathbf{z}_t\right)=q\left(\mathbf{z}_s \mid \mathbf{z}_t, \mathbf{x}=\hat{\mathbf{x}}_\theta\left(\mathbf{z}_t ; t\right)\right)$$
+$$p\left(\mathbf{z}\_s \mid \mathbf{z}\_t\right)=q\left(\mathbf{z}\_s \mid \mathbf{z}\_t, \mathbf{x}=\hat{\mathbf{x}}\_\theta\left(\mathbf{z}\_t ; t\right)\right)$$
 
 where $\hat{\mathbf{x}}_\theta$ is a denoising model with parameters $\theta$.
 
@@ -77,20 +77,20 @@ where $\hat{\mathbf{x}}_\theta$ is a denoising model with parameters $\theta$.
 
 The loss function is given by the usual variational lower bound:
 
-$$-\log p(\mathbf{x}) \leq-\operatorname{VLB}(\mathbf{x})=D_{KL}\left(q\left(\mathbf{z}_1 \mid \mathbf{x}\right)\ ||\ p\left(\mathbf{z}_1\right)\right)+\mathbb{E}_{q\left(\mathbf{z}_0 \mid \mathbf{x}\right)}\left[-\log p\left(\mathbf{x} \mid \mathbf{z}_0\right)\right]+\mathcal{L}_T(\mathbf{x})$$
+$$-\log p(\mathbf{x}) \leq-\text{VLB}(\mathbf{x})=D\_{KL}\left(q\left(\mathbf{z}\_1 \mid \mathbf{x}\right)\ ||\ p\left(\mathbf{z}\_1\right)\right)+\mathbb{E}\_{q\left(\mathbf{z}\_0 \mid \mathbf{x}\right)}\left[-\log p\left(\mathbf{x} \mid \mathbf{z}\_0\right)\right]+\mathcal{L}\_T(\mathbf{x})$$
 
 where the diffusion loss $\mathcal{L}_T(\mathbf{x})$ is
 
-$$\mathcal{L}_T (\mathbf{x}) = \sum_{i=1}^T \mathbb{E}_{q \left(\mathbf{z}_t \mid \mathbf{x}\right)} D_{KL}\left[q\left(\mathbf{z}_s \mid \mathbf{z}_t, \mathbf{x}\right)\ ||\ p\left(\mathbf{z}_s \mid \mathbf{z}_t \right)\right]$$
+$$\mathcal{L}\_T (\mathbf{x}) = \sum_{i=1}^T \mathbb{E}\_{q \left(\mathbf{z}\_t \mid \mathbf{x}\right)} D\_{KL}\left[q\left(\mathbf{z}\_s \mid \mathbf{z}\_t, \mathbf{x}\right)\ ||\ p\left(\mathbf{z}\_s \mid \mathbf{z}\_t \right)\right]$$
 
 Long story short, using the classic noise-prediction parameterization of the denoising model:
 
-$$\hat{\mathbf{x}}_\theta\left(\mathbf{z}_t ; t\right) = \frac{\mathbf{z}_t-\sigma_t \hat{\boldsymbol{\epsilon}}_\theta\left(\mathbf{z}_t ; t\right)}{\alpha_t}$$
+$$\hat{\mathbf{x}}\_\theta\left(\mathbf{z}\_t ; t\right) = \frac{\mathbf{z}\_t-\sigma\_t \hat{\boldsymbol{\epsilon}}\_\theta\left(\mathbf{z}\_t ; t\right)}{\alpha\_t}$$
 
 and considering the continuous-time limit ($T \to \infty$), 
 the diffusion loss simplifies to:
 
-$$\mathcal{L}_{\infty}(\mathbf{x})=\frac{1}{2} \mathbb{E}_{\boldsymbol{\epsilon} \sim \mathcal{N}(0, \mathbf{I}), t \sim \mathcal{U}(0,1)}\left[ \frac{d\gamma_t}{dt} \  \|\| \boldsymbol{\epsilon}-\hat{\boldsymbol{\epsilon}}_{\boldsymbol{\theta}}\left(\mathbf{z}_t ; t\right) \|\| _2^2\right]$$
+$$\mathcal{L}\_{\infty}(\mathbf{x})=\frac{1}{2} \mathbb{E}\_{\boldsymbol{\epsilon} \sim \mathcal{N}(0, \mathbf{I}), t \sim \mathcal{U}(0,1)}\left[ \frac{d\gamma\_t}{dt} \  \|\| \boldsymbol{\epsilon}-\hat{\boldsymbol{\epsilon}}\_{\boldsymbol{\theta}}\left(\mathbf{z}\_t ; t\right) \|\|\_2^2\right]$$
 
 
 
