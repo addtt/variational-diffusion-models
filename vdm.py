@@ -20,6 +20,13 @@ class VDM(nn.Module):
             self.gamma = LearnedLinearSchedule(cfg.gamma_min, cfg.gamma_max)
         else:
             raise ValueError(f"Unknown noise schedule {cfg.noise_schedule}")
+        
+        self.criterion = cfg.criterion
+        if self.criterion not in ("image", "noise"):
+            raise ValueError(
+                f"Unsupported criterion '{self.criterion}'. "
+                "Expected 'image' or 'noise'."
+            )
 
     @property
     def device(self):
@@ -107,7 +114,13 @@ class VDM(nn.Module):
             create_graph=True,
             retain_graph=True,
         )[0]
-        pred_loss = ((model_out - noise) ** 2).sum((1, 2, 3))  # (B, )
+
+        if self.criterion == "image":
+            snr_t = torch.exp(-gamma_t)
+            pred_loss = snr_t * ((model_out - x) ** 2).sum(1, 2, 3)
+        else:
+            pred_loss = ((model_out - noise) ** 2).sum((1, 2, 3))  # (B, )
+            
         diffusion_loss = 0.5 * pred_loss * gamma_grad * bpd_factor
 
         # *** Latent loss (bpd): KL divergence from N(0, 1) to q(z_1 | x)
