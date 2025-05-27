@@ -44,6 +44,7 @@ def main():
     parser.add_argument("--input-channels", type=int, default=3)
     parser.add_argument("--use-fourier-features", action=BooleanOptionalAction, default=True)
     parser.add_argument("--attention-everywhere", action=BooleanOptionalAction, default=False)
+    parser.add_argument("--criterion", type=str, default="noise")
 
     # Training
     parser.add_argument("--batch-size", type=int, default=128)
